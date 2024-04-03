@@ -1,0 +1,19 @@
+T = 1
+# γ = ...
+x0 = 0.1
+
+@def ocp begin
+  tf ∈ R, variable
+  t ∈ [ 0, T ], time
+  x ∈ R, state
+  u ∈ R, control
+  0 ≤ u(t) ≤ 1
+  
+  x(0) == x0
+  ẋ(t) == u(t) * x(t)^2 # le nouveau γ est défini ici directement, et ainsi varier en fonction de t, i.e. γ(t) = x(t)
+
+  ∫( (1 - u(t)) * x(t)) → max
+end
+n = 10
+sol = CTDirect.solve(ocp, grid_size = n)
+fig = plot(sol)
